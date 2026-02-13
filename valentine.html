@@ -2,61 +2,78 @@
 <html lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Be My Valentine 💌</title>
+
+<title>Be My Valentine 🤍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 body {
-    margin: 0;
-    font-family: "Comic Sans MS", cursive;
-    background: linear-gradient(135deg, #ff9ec4, #ffcce0);
-    text-align: center;
-    color: white;
-    overflow: hidden;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #ffffff;
+  text-align: center;
+  color: #2d2d2d;
+  overflow: hidden;
 }
 
 h1 {
-    margin-top: 20px;
-    font-size: 24px;
-}
-
-#gameArea {
-    position: relative;
-    height: 55vh;
-    border: 3px dashed white;
-    margin: 15px;
-    border-radius: 15px;
-    overflow: hidden;
-}
-
-.heart {
-    position: absolute;
-    font-size: 30px;
-    cursor: pointer;
-    user-select: none;
-}
-
-button {
-    border: none;
-    padding: 14px 22px;
-    font-size: 18px;
-    border-radius: 12px;
-    margin: 8px;
-}
-
-#yesBtn {
-    background: #ff2e63;
-    color: white;
-    display: none;
-}
-
-#noBtn {
-    background: #333;
-    color: white;
-    display: none;
+  margin-top: 22px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: #1f2937;
 }
 
 #score {
-    font-size: 18px;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+#gameArea {
+  position: relative;
+  height: 55vh;
+  border: 2px solid #e5e7eb;
+  margin: 18px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.heart {
+  position: absolute;
+  font-size: 30px;
+  cursor: pointer;
+  user-select: none;
+}
+
+button {
+  border: none;
+  padding: 14px 26px;
+  font-size: 16px;
+  border-radius: 999px;
+  margin: 10px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.25s ease;
+}
+
+#yesBtn {
+  background: #e11d48;
+  color: #ffffff;
+  display: none;
+  box-shadow: 0 4px 14px rgba(225,29,72,0.25);
+}
+
+#noBtn {
+  background: #f3f4f6;
+  color: #374151;
+  display: none;
+}
+
+#msg {
+  margin-top: 12px;
+  font-weight: 500;
+  color: #e11d48;
 }
 </style>
 </head>
@@ -69,10 +86,10 @@ button {
 <div id="gameArea"></div>
 
 <div id="question" style="display:none;">
-    <h1>Will you be my Valentine? 🥺💘</h1>
-    <button id="yesBtn">YES 💖</button>
-    <button id="noBtn">No 🙈</button>
-    <div id="msg"></div>
+  <h1>Will you be my Valentine? 🥺💘</h1>
+  <button id="yesBtn">YES 💖</button>
+  <button id="noBtn">No 🙈</button>
+  <div id="msg"></div>
 </div>
 
 <script>
@@ -84,71 +101,75 @@ const noBtn = document.getElementById("noBtn");
 const msg = document.getElementById("msg");
 
 let score = 0;
-let needed = 13;   // ✅ changed to 13 hearts
+let needed = 13;
 let noCount = 0;
 
+/* SAME MESSAGES — unchanged */
 const noMsgs = [
- "Are you sure? 🥺",
- "Think again cutie 💗",
- "I have snacks 🍫",
- "And hugs 🫂",
- "And unlimited love 😌",
- "Don’t break my heart 😭",
- "Press YES please 💖"
+  "Nenachen😭",
+  "Think again cutie 🥺",
+  "I'll dance for you 🕺",
+  "And give you unlimited kissies 💋",
+  "Unlimited love waiting 😌",
+  "Don’t break my heart 😭",
+  "Press YES please 💖"
 ];
 
 function spawnHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "💖";
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "💖";
 
-    heart.style.left = Math.random()*85 + "%";
-    heart.style.top = Math.random()*85 + "%";
+  heart.style.left = Math.random()*85 + "%";
+  heart.style.top = Math.random()*85 + "%";
 
-    heart.onclick = () => {
-        heart.remove();
-        score++;
-        scoreText.innerText = `Hearts caught: ${score} / ${needed}`;
-        if (score >= needed) unlockQuestion();
-    };
+  heart.onclick = () => {
+    heart.remove();
+    score++;
+    scoreText.innerText = `Hearts caught: ${score} / ${needed}`;
+    if (score >= needed) unlockQuestion();
+  };
 
-    gameArea.appendChild(heart);
+  gameArea.appendChild(heart);
 
-    setTimeout(() => {
-        if (heart.parentNode) heart.remove();
-    }, 1800);
+  setTimeout(() => {
+    if (heart.parentNode) heart.remove();
+  }, 1800);
 }
 
 let spawner = setInterval(spawnHeart, 650);
 
 function unlockQuestion() {
-    clearInterval(spawner);
-    gameArea.style.display = "none";
-    scoreText.style.display = "none";
-    questionDiv.style.display = "block";
-    yesBtn.style.display = "inline-block";
-    noBtn.style.display = "inline-block";
+  clearInterval(spawner);
+  gameArea.style.display = "none";
+  scoreText.style.display = "none";
+  questionDiv.style.display = "block";
+  yesBtn.style.display = "inline-block";
+  noBtn.style.display = "inline-block";
 }
 
 noBtn.onclick = () => {
-    noCount++;
-    msg.innerText = noMsgs[Math.min(noCount-1, noMsgs.length-1)];
+  noCount++;
+  msg.innerText = noMsgs[Math.min(noCount-1, noMsgs.length-1)];
 
-    let grow = 18 + noCount*5;
-    yesBtn.style.fontSize = grow + "px";
-    yesBtn.style.padding = (14+noCount*4)+"px "+(22+noCount*6)+"px";
+  let grow = 16 + noCount * 4;
+  yesBtn.style.fontSize = grow + "px";
+  yesBtn.style.padding =
+    (14 + noCount * 3) + "px " + (26 + noCount * 5) + "px";
 
-    noBtn.style.position = "relative";
-    noBtn.style.left = (Math.random()*120-60)+"px";
+  noBtn.style.position = "relative";
+  noBtn.style.left = (Math.random()*120 - 60) + "px";
 };
 
 yesBtn.onclick = () => {
-    document.body.innerHTML = `
-    <div style="margin-top:25vh;padding:20px;">
-    <h1>YAYYYYY 💖🎉</h1>
-    <h2>You said YES 😍</h2>
-    <div style="font-size:70px;">💘🌸🐻🎊</div>
-    <p style="font-size:20px;">Best Valentine ever!</p>
+  document.body.innerHTML = `
+    <div style="margin-top:28vh;padding:20px;">
+      <h1>YAYYYYY🕺💖🎉</h1>
+      <h2>IK you'll say YES 😁</h2>
+      <div style="font-size:60px;">💘✨💘</div>
+      <p style="font-size:18px;color:#555;">
+        Best Valentine ever!
+      </p>
     </div>`;
 };
 </script>
