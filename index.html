@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💌</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Comic Sans MS", cursive;
+    background: linear-gradient(135deg, #ff9ec4, #ffcce0);
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+
+h1 {
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+#gameArea {
+    position: relative;
+    height: 55vh;
+    border: 3px dashed white;
+    margin: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    font-size: 30px;
+    cursor: pointer;
+    user-select: none;
+}
+
+button {
+    border: none;
+    padding: 14px 22px;
+    font-size: 18px;
+    border-radius: 12px;
+    margin: 8px;
+}
+
+#yesBtn {
+    background: #ff2e63;
+    color: white;
+    display: none;
+}
+
+#noBtn {
+    background: #333;
+    color: white;
+    display: none;
+}
+
+#score {
+    font-size: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Catch 13 hearts to unlock your Valentine question 💖</h1>
+<div id="score">Hearts caught: 0 / 13</div>
+
+<div id="gameArea"></div>
+
+<div id="question" style="display:none;">
+    <h1>Will you be my Valentine? 🥺💘</h1>
+    <button id="yesBtn">YES 💖</button>
+    <button id="noBtn">No 🙈</button>
+    <div id="msg"></div>
+</div>
+
+<script>
+const gameArea = document.getElementById("gameArea");
+const scoreText = document.getElementById("score");
+const questionDiv = document.getElementById("question");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const msg = document.getElementById("msg");
+
+let score = 0;
+let needed = 13;   // ✅ changed to 13 hearts
+let noCount = 0;
+
+const noMsgs = [
+ "Are you sure? 🥺",
+ "Think again cutie 💗",
+ "I have snacks 🍫",
+ "And hugs 🫂",
+ "And unlimited love 😌",
+ "Don’t break my heart 😭",
+ "Press YES please 💖"
+];
+
+function spawnHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+
+    heart.style.left = Math.random()*85 + "%";
+    heart.style.top = Math.random()*85 + "%";
+
+    heart.onclick = () => {
+        heart.remove();
+        score++;
+        scoreText.innerText = `Hearts caught: ${score} / ${needed}`;
+        if (score >= needed) unlockQuestion();
+    };
+
+    gameArea.appendChild(heart);
+
+    setTimeout(() => {
+        if (heart.parentNode) heart.remove();
+    }, 1800);
+}
+
+let spawner = setInterval(spawnHeart, 650);
+
+function unlockQuestion() {
+    clearInterval(spawner);
+    gameArea.style.display = "none";
+    scoreText.style.display = "none";
+    questionDiv.style.display = "block";
+    yesBtn.style.display = "inline-block";
+    noBtn.style.display = "inline-block";
+}
+
+noBtn.onclick = () => {
+    noCount++;
+    msg.innerText = noMsgs[Math.min(noCount-1, noMsgs.length-1)];
+
+    let grow = 18 + noCount*5;
+    yesBtn.style.fontSize = grow + "px";
+    yesBtn.style.padding = (14+noCount*4)+"px "+(22+noCount*6)+"px";
+
+    noBtn.style.position = "relative";
+    noBtn.style.left = (Math.random()*120-60)+"px";
+};
+
+yesBtn.onclick = () => {
+    document.body.innerHTML = `
+    <div style="margin-top:25vh;padding:20px;">
+    <h1>YAYYYYY 💖🎉</h1>
+    <h2>You said YES 😍</h2>
+    <div style="font-size:70px;">💘🌸🐻🎊</div>
+    <p style="font-size:20px;">Best Valentine ever!</p>
+    </div>`;
+};
+</script>
+
+</body>
+</html>
